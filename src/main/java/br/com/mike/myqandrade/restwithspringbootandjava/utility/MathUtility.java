@@ -1,4 +1,4 @@
-package br.com.mike.myqandrade.restwithspringbootandjava;
+package br.com.mike.myqandrade.restwithspringbootandjava.utility;
 
 public class MathUtility {
 
