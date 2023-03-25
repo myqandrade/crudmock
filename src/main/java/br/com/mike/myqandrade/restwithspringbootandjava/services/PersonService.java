@@ -1,61 +1,50 @@
 package br.com.mike.myqandrade.restwithspringbootandjava.services;
 
+import br.com.mike.myqandrade.restwithspringbootandjava.exceptions.ResourceNotFoundException;
 import br.com.mike.myqandrade.restwithspringbootandjava.model.Person;
+import br.com.mike.myqandrade.restwithspringbootandjava.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
 public class PersonService {
 
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    private PersonRepository personRepository;
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     private List<Person> persons = new ArrayList<>();
 
-    public Person findById(String id){
-        logger.info("Finding one person");
-        int identification = Integer.parseInt(id);
-        return persons.get(identification - 1);
+    public Person findById(Long id){
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
     }
 
     public List<Person> findAll(){
-        logger.info("Finding all people");
-        return persons;
+        return personRepository.findAll();
     }
 
-    public Person create(Person p){
-        logger.info("Creating one person");
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName(p.getFirstName());
-        person.setLastName(p.getLastName());
-        person.setAddress(p.getAddress());
-        person.setGender(p.getGender());
-
-        persons.add(person);
-
-        return person;
+    public Person create(Person person){
+        return personRepository.save(person);
     }
 
-    public Person update(Person person, Long id){
-        logger.info("Updating person");
-        int identification = id.intValue();
-        var p = persons.get(identification - 1);
-        p.setFirstName(person.getFirstName());
-        p.setLastName(person.getLastName());
-        p.setAddress(person.getAddress());
-        p.setGender(person.getGender());
-        return p;
+    public Person update(Person person){
+        Person entity = personRepository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+        return personRepository.save(entity);
     }
 
     public void delete(Long id){
-        logger.info("Deleting person");
-        int identification = id.intValue();
-        persons.remove(identification - 1);
+        Person entity = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        personRepository.delete(entity);
     }
 
 

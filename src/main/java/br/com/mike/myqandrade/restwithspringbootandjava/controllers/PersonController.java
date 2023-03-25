@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -17,7 +16,7 @@ public class PersonController {
     private PersonService personService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable(value = "id") String id) {
+    public Person findById(@PathVariable(value = "id") Long id) {
         return personService.findById(id);
     }
 
@@ -32,10 +31,10 @@ public class PersonController {
         return personService.create(person);
     }
 
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT,
+    @RequestMapping(value = "/update", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person, @PathVariable Long id){
-        return personService.update(person, id);
+    public Person update(@RequestBody Person person){
+        return personService.update(person);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
