@@ -1,6 +1,6 @@
 package br.com.mike.myqandrade.restwithspringbootandjava.controllers;
 
-import br.com.mike.myqandrade.restwithspringbootandjava.model.Person;
+import br.com.mike.myqandrade.restwithspringbootandjava.data.vo.v1.PersonVO;
 import br.com.mike.myqandrade.restwithspringbootandjava.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,14 +30,14 @@ public class PersonController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public ResponseEntity<?> create(@RequestBody Person person){
-        return new ResponseEntity<Person>(personService.create(person), CREATED);
+    public ResponseEntity<?> create(@RequestBody PersonVO person){
+        return new ResponseEntity<PersonVO>(personService.create(person), CREATED);
     }
 
     @PutMapping(value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<?> update(@RequestBody Person person, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody PersonVO person, @PathVariable Long id){
         return ResponseEntity.ok(personService.update(person, id));
     }
 
