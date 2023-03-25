@@ -33,12 +33,9 @@ public class PersonService {
 
     public Person update(Person person, Long id){
         var entity = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
+        var updatedEntity = Person.updatePerson(entity, person);
 
-        return personRepository.save(entity);
+        return personRepository.save(updatedEntity);
     }
 
     public void delete(Long id){

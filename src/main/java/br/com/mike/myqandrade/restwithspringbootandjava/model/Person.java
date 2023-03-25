@@ -78,4 +78,13 @@ public class Person implements Serializable {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, address, gender);
     }
+
+    public static Person updatePerson(Person entity, Person person){
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+
+        return entity;
+    }
 }
