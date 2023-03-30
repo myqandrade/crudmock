@@ -34,11 +34,10 @@ public class PersonController {
         return new ResponseEntity<PersonVO>(personService.create(person), CREATED);
     }
 
-    @PutMapping(value = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<?> update(@RequestBody PersonVO person, @PathVariable Long id){
-        return ResponseEntity.ok(personService.update(person, id));
+    public ResponseEntity<?> update(@RequestBody PersonVO person){
+        return ResponseEntity.ok(personService.update(person));
     }
 
     @DeleteMapping(value = "/{id}")
